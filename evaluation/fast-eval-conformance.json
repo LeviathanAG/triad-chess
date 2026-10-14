@@ -1,0 +1,65 @@
+{
+  "passed": true,
+  "positions": 221,
+  "bound_cases": [
+    {
+      "fen": "rnbqkbnr/pppppppp/8/8/8/6P1/PPPPPP1P/RNBQKBNR b KQkq - 0 1",
+      "full_nodes": 470,
+      "pruned_nodes": 470,
+      "passed": true
+    },
+    {
+      "fen": "r1b2b2/p2pnk2/np1B1p1r/2p1p1p1/2P4p/1P1PP1P1/P4NRP/RN1QK3 w Q - 1 14",
+      "full_nodes": 4205,
+      "pruned_nodes": 3669,
+      "passed": true
+    },
+    {
+      "fen": "r1bqkbn1/pppp1ppr/2n1p2p/6N1/3PPP2/1P6/P1P3PP/RNBQKB1R w KQ - 1 9",
+      "full_nodes": 3504,
+      "pruned_nodes": 388,
+      "passed": true
+    },
+    {
+      "fen": "r1bqkbnr/pppp1ppp/4p3/2n5/6P1/N6N/PPPPPP1P/R1BQKB1R w KQkq - 0 4",
+      "full_nodes": 841,
+      "pruned_nodes": 780,
+      "passed": true
+    },
+    {
+      "fen": "1rb1kb1r/pppnqpp1/3pp2p/8/3PPnP1/NPBQ3N/P4P1P/3R1RK1 b k - 5 16",
+      "full_nodes": 1709,
+      "pruned_nodes": 163,
+      "passed": true
+    },
+    {
+      "fen": "1n1q1bn1/r1p1pk1p/p1bp1pp1/1p6/1P5P/3PB3/P1PQPPP1/RN1K1BNR b - - 3 11",
+      "full_nodes": 1050,
+      "pruned_nodes": 258,
+      "passed": true
+    },
+    {
+      "fen": "rnbqkb1r/pp1pp1p1/3p1n2/7p/P4p2/3PP3/1PP2PPP/R1BQKBNR b KQkq - 0 6",
+      "full_nodes": 1049,
+      "pruned_nodes": 316,
+      "passed": true
+    },
+    {
+      "fen": "rnbqkbnr/pppppppp/8/8/6P1/8/PPPPPP1P/RNBQKBNR b KQkq - 0 1",
+      "full_nodes": 573,
+      "pruned_nodes": 520,
+      "passed": true
+    },
+    {
+      "fen": "1nn1kb1r/r1p2pp1/pp1q2p1/3pP3/b3P2P/1P1B1N2/P1PP4/R1BQKR2 w Qk - 0 14",
+      "full_nodes": 8739,
+      "pruned_nodes": 757,
+      "passed": true
+    }
+  ],
+  "cancellation_seconds": 0.031382920999021735,
+  "source_sha256": "5b12babff908e7e4192e344ccda88fc4bac19668ca32f131a41b63cd617a5842",
+  "binary_sha256": "9aeb7673b25434118f0e963e1a80dab77598dc65e07b051fdc1ce89ee612ceca",
+  "rules_header_sha256": "f2c8e2e929641e2c71cbe9d8abd718cf3cac46c2a34531215ebd733905e98d7f",
+  "scope": "rules/evaluation/history/PV/bound/cancellation compatibility; not playing strength"
+}

@@ -284,14 +284,14 @@ def analyze(position, check_cancelled=lambda: None, seconds=0.8, max_depth=4, ro
     }
 
 
-def candidate_subset(analysis, legal, max_choices=4, tolerance=65):
+def candidate_subset(analysis, legal, max_choices=4, tolerance=65, secondary_tolerance=120):
     exact = [x for x in analysis["scores"] if "score_bound" not in x]
     if not exact:
         return legal
     best = exact[0]["score"]
     candidates = [x["uci"] for x in exact if x["score"] >= best - tolerance][:max_choices]
     # Allow a meaningful model comparison when the second choice is close.
-    if len(candidates) == 1 and len(exact) > 1 and exact[1]["score"] >= best - 120:
+    if len(candidates) == 1 and len(exact) > 1 and exact[1]["score"] >= best - secondary_tolerance:
         candidates.append(exact[1]["uci"])
     return candidates or legal
 

@@ -24,8 +24,11 @@ def choose(context):
         context.position | {"legal_moves": candidates},
         getattr(context, "check_cancelled", lambda: None),
         seconds=analysis_budget,
+        max_depth=config.get("analysis_depth", 6 if analyzer is native_analyze else 4),
     )
-    candidates = candidate_subset(analysis, candidates)
+    candidates = candidate_subset(analysis, candidates,
+        tolerance=config.get("candidate_window",65),
+        secondary_tolerance=config.get("secondary_window",120))
     messages = model_messages(context.position, analysis, candidates)
     # Actual clocks come from observations. Leave time to serialize and deliver the move.
     budget = max(0.05, context.remaining_seconds - 0.5) if context.own_turn else 120

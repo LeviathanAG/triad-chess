@@ -1,0 +1,51 @@
+{
+  "model_id": "qwen",
+  "sha256": "dec96e8cf2e11b613bb46513dec485377f9ca5a351e71712ee0e244f287c6790",
+  "configs": [
+    {
+      "window": 65,
+      "secondary_window": 120,
+      "summary": {
+        "positions": 48,
+        "mean_cp_regret": 55.8125,
+        "blunders_above_200cp": 2,
+        "near_best_within_50cp": 31,
+        "mean_seconds": 1.474696117041674
+      },
+      "output": "/kaggle/working/chess-results/qwen-native-window65-quality.json"
+    },
+    {
+      "window": 30,
+      "secondary_window": 30,
+      "summary": {
+        "positions": 48,
+        "mean_cp_regret": 52.833333333333336,
+        "blunders_above_200cp": 1,
+        "near_best_within_50cp": 30,
+        "mean_seconds": 1.4569481733958582
+      },
+      "output": "/kaggle/working/chess-results/qwen-native-window30-quality.json"
+    }
+  ],
+  "games": [
+    {
+      "colour": "white",
+      "clock": 600,
+      "result": "1/2-1/2",
+      "termination": "board_outcome",
+      "plies": 295,
+      "remaining": 374.009,
+      "output": "/kaggle/working/chess-results/qwen-native-window30-white-game.json"
+    },
+    {
+      "colour": "black",
+      "clock": 180,
+      "result": "0-1",
+      "termination": "board_outcome",
+      "plies": 174,
+      "remaining": 55.921,
+      "output": "/kaggle/working/chess-results/qwen-native-window30-black-game.json"
+    }
+  ],
+  "scope": "Two private-development games, not officialrating/win guarantee; modelweightsfrozen, zero reasoning. Sourceoriginalfixedfastalgorithm; Stockfish17.1Skill5depth8externalonly."
+}

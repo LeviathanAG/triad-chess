@@ -1,7 +1,7 @@
 # Development build fixture; compiler stage is absent from the runtime image.
 FROM gcc@sha256:b59036579f0622d1b3aa5286aaf2fcef9b9c6f88f31c6762236fc2f136f7f650 AS compiler
 WORKDIR /build
-COPY analysis.cpp ./
+COPY analysis_fast_eval.cpp ./analysis.cpp
 COPY vendor/ ./vendor/
 RUN g++ -std=c++17 -O3 -static-libstdc++ -static-libgcc \
     -Wl,--build-id=sha1 -o analysis-bookworm analysis.cpp \

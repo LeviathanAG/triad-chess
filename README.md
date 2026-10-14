@@ -121,3 +121,12 @@ pause/resume, and verifies six model-backed moves. It does not change an existin
 event database or confer official approval. Local reports are written to ignored
 `reports/` files. The standard SDK test run skips this integration when the engine
 is absent.
+
+# Team entry for tonight's test round
+
+Team: **TungMasterSoloClear**, ID **TECHTEAM11600**. The captured test-round
+manifest selects approved frozen `qwen` Q4_K_M, no adapter, zero reasoning,
+original native analysis, and the tested 30-centipawn candidate window.
+All original search/evaluation source and attribution are included. The native
+Gemma checkpoint 5dac2cd and original Qwen main 1648386 are retained as rollbacks.
+This is a test-round candidate; the small local comparison does not guarantee a win.

@@ -15,7 +15,10 @@ docker cp triad-chess-native-export:/build/analysis-bookworm ./analysis
 docker rm triad-chess-native-export
 ```
 
-Verify the result against SHA256SUMS.json. GCC 13 targets ordinary x86-64 with
+Compare the result against SHA256SUMS.json. ELF compiler/source-path metadata
+can alter the rebuild hash; a different rebuilt artifact remains development-only
+until its conformance and harness gates pass. Admission always uses the retained,
+already verified checked-in binary. GCC 13 targets ordinary x86-64 with
 static libstdc++/libgcc and Bookworm system glibc, without host-specific ISA flags.
 PROVENANCE.txt records the original algorithm, permitted rules dependency and
 compiler/runtime attribution. The model still makes the final move selection.

@@ -4,10 +4,10 @@ Team: TungMasterSoloClear / TECHTEAM11600. This private development branch is
 not an official entry. The default branch remains subject to the organizer freeze.
 
 The organizer SDK starts at Sir-Nike/chessSDK commit
-2572686cfe2653e1fe8680f631008cd27962ee47. This development configuration selects
-`gemma`: the exact organizer-approved gemma-4-E4B-it-Q4_K_M.gguf, revision
-bfc15c382204943c3a8fff0c750b94ae2364d7a3, SHA-256
-85a896a047553e842f25297ee5b031d64ff30147d9c4af17b1e4b394cd1fab87.
+2572686cfe2653e1fe8680f631008cd27962ee47. Tonight's test-round configuration selects
+`qwen`: the exact organizer-approved Qwen3.8-4B-Q4_K_M.gguf, revision
+391fc7d103e3942a408def3e4f51c2f85d464417, SHA-256
+dec96e8cf2e11b613bb46513dec485377f9ca5a351e71712ee0e244f287c6790.
 Its weights are frozen and no adapter is supplied. No extra learned evaluator,
 model server, opening book or tablebase is bundled in the participant image.
 
@@ -30,7 +30,7 @@ castling, promotions, legal and pinned en passant, repetition and mate precedenc
 
 The checked-in native binary was built with pinned GCC 13 on Bookworm, without
 host ISA flags, using static libstdc++/libgcc and dynamic Bookworm glibc. Its SHA-256
-is 16f1a43275602d0b853e96fd4f085da0fe37cb61ec14fc6937e197b26a8d9998.
+is 9aeb7673b25434118f0e963e1a80dab77598dc65e07b051fdc1ce89ee612ceca.
 The default offline admission Dockerfile copies and verifies this binary and
 requires only the preloaded official Python parent. `native/Dockerfile.build`
 and native/README.md provide a separate reproducible compiler fixture; that
@@ -147,4 +147,28 @@ White600s 6s-ceiling trial lost by checkmate to Skill20/depth8 in 70 plies with
 389.04s remaining. Skill20 here is explicitly depth-limited. All own moves
 had legal actual approved-model completion evidence and no backend faults.
 More compute alone did not establish reliability against stronger opponents.
-These experiments do not replace the retained default native source or model.
+These earlier experiments remained separate from the retained default; tonight's
+test-round selection is described below.
+
+Tonight's explicitly authorized test-round candidate adopts the verified
+fast-evaluation implementation, which keeps every handcrafted formula/weight
+unchanged and replaces square scans with piece-bitboard iteration/counting.
+Its source is native/analysis_fast_eval.cpp; original native/analysis.cpp is
+retained for review. Compiler, source and binary provenance are recorded
+separately from the offline admission build.
+The manifest uses max depth10, 0.8s ceiling, one percent of observed remaining
+clock, 30cp primary/secondary candidate windows, reasoning budget0/effortnone,
+512 output-token ceiling and no pondering. The UCI/SAN-root/PV prompt is exactly
+the successful private native batch configuration; experimental SAN-PV additions,
+forcing search and Armageddon-specific strategy are excluded.
+
+In that separate all-four comparison against external Stockfish17.1 Skill5/depth8,
+Qwen drew as White600s in295plies with374.009s remaining and won as Black180s
+in174plies with55.921s remaining. Gemma won its White trial and lost its Black
+trial; Horizon lost White and drew Black; Nemotron lost both. Every model used
+the same fixed original fast source and zero reasoning. Two games/model are
+a tiny sample, so the selection is a provisional test-round decision, not a
+reliability, Elo or winning guarantee. Earlier Gemma, forcing and clock failures
+remain recorded. The complete manifest-configured fake-gateway/resource fixtures
+and45tests gate this candidate. Gemma/native5dac2cd and original Qwen main1648386
+remain rollback checkpoints. Root coordinates the authorized20:30IST main push.

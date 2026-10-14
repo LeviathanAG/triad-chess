@@ -36,6 +36,16 @@ only the preloaded official Python parent; the compiler fixture is separate.
 Any build record must identify source, binary, header and image hashes.
 
 Runtime role and current status
+Tonight's test-round candidate uses analysis_fast_eval.cpp, preserving every
+fixed handcrafted evaluation formula/weight and replacing scans with generic
+piece-bitboard iteration/counting. Binary SHA256:
+9aeb7673b25434118f0e963e1a80dab77598dc65e07b051fdc1ce89ee612ceca
+Source SHA256:
+5b12babff908e7e4192e344ccda88fc4bac19668ca32f131a41b63cd617a5842
+Original analysis.cpp is retained for review/rollback; no forcing-line,
+evaluation-cache, SAN-PV or Armageddon-specific experiment is included.
+The approved Qwen3.8 Q4_K_M model completes the final request at zero reasoning;
+team TungMasterSoloClear / TECHTEAM11600, no adapter.
 Integrated in the private Chess development branch, with 221 conformance
 positions plus nine bound/PV cases and both-colour complete harness fixtures
 passing the exact one-CPU/512MiB/64PIDs/64MiBtmp offline/read-only profile.
