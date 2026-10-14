@@ -1,0 +1,77 @@
+{
+  "scope": "Local approved frozen Gemma versus external Stockfish; original handcrafted search; actual model completions. Earlier fixed-budget Black loss retained for transparency.",
+  "games": [
+    {
+      "artifact": "chess-gemma-algorithmic-white",
+      "model": "gemma-4-E4B-it-Q4_K_M",
+      "variant": "algorithmic",
+      "colour": "white",
+      "reference": "native Stockfish17.1, skill0, depth3",
+      "engine_id": {
+        "name": "Stockfish 17.1",
+        "author": "the Stockfish developers (see AUTHORS file)"
+      },
+      "result": "1-0",
+      "termination": "board_outcome",
+      "plies": 83,
+      "remaining_clock": 520.692,
+      "actual_completion_count": 42,
+      "all_completion_ids_present": true,
+      "notes": "Development-only opponent, no tournament rating or global win guarantee."
+    },
+    {
+      "artifact": "chess-gemma-algorithmic-armageddon-black",
+      "model": "gemma-4-E4B-it-Q4_K_M",
+      "variant": "algorithmic",
+      "colour": "black",
+      "reference": "native Stockfish17.1, skill0, depth3",
+      "engine_id": {
+        "name": "Stockfish 17.1",
+        "author": "the Stockfish developers (see AUTHORS file)"
+      },
+      "result": "1-0",
+      "termination": "own_clock_expired",
+      "plies": 191,
+      "remaining_clock": 0.682,
+      "actual_completion_count": 95,
+      "all_completion_ids_present": true,
+      "notes": "Development-only opponent, no tournament rating or global win guarantee."
+    },
+    {
+      "artifact": "chess-gemma-algorithmic-v2-armageddon-black",
+      "model": "gemma-4-E4B-it-Q4_K_M",
+      "variant": "algorithmic",
+      "colour": "black",
+      "reference": "native Stockfish17.1, skill0, depth3",
+      "engine_id": {
+        "name": "Stockfish 17.1",
+        "author": "the Stockfish developers (see AUTHORS file)"
+      },
+      "result": "0-1",
+      "termination": "board_outcome",
+      "plies": 64,
+      "remaining_clock": 124.208,
+      "actual_completion_count": 32,
+      "all_completion_ids_present": true,
+      "notes": "Development-only opponent, no tournament rating or global win guarantee."
+    },
+    {
+      "artifact": "chess-gemma-algorithmic-v2-stockfish-depth4-white",
+      "model": "gemma-4-E4B-it-Q4_K_M",
+      "variant": "algorithmic",
+      "colour": "white",
+      "reference": "native Stockfish17.1, skill0, depth4",
+      "engine_id": {
+        "name": "Stockfish 17.1",
+        "author": "the Stockfish developers (see AUTHORS file)"
+      },
+      "result": "1-0",
+      "termination": "board_outcome",
+      "plies": 53,
+      "remaining_clock": 553.194,
+      "actual_completion_count": 27,
+      "all_completion_ids_present": true,
+      "notes": "Development-only opponent, no tournament rating or global win guarantee."
+    }
+  ]
+}

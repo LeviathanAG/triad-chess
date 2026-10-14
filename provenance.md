@@ -1,51 +1,91 @@
-# Chess harness provenance and validation
+# Chess development harness provenance and validation
 
-Team: TungMasterSoloClear / TECHTEAM11600. This is private development source,
-not an official entry or a claim of tournament strength.
+Team: TungMasterSoloClear / TECHTEAM11600. This private development branch is
+not an official entry. The default branch remains subject to the organizer freeze.
 
-The organizer SDK is based on Sir-Nike/chessSDK commit
-2572686cfe2653e1fe8680f631008cd27962ee47. The configured approved model remains
-`qwen`, with frozen organizer-selected Q4_K_M weights and no adapter. No additional
-learned evaluator or model server is bundled in the participant image.
+The organizer SDK starts at Sir-Nike/chessSDK commit
+2572686cfe2653e1fe8680f631008cd27962ee47. This development configuration selects
+`gemma`: the exact organizer-approved gemma-4-E4B-it-Q4_K_M.gguf, revision
+bfc15c382204943c3a8fff0c750b94ae2364d7a3, SHA-256
+85a896a047553e842f25297ee5b031d64ff30147d9c4af17b1e4b394cd1fab87.
+Its weights are frozen and no adapter is supplied. No extra learned evaluator,
+model server, opening book or tablebase is bundled in the participant image.
 
-`chess_tools.py` contains original, AI-assisted terminal-rule search written
-during the event. It uses the organizer-permitted python-chess 1.11.2 rules
-library for legal moves, checkmate, and draw checks. It contains no imported
-engine, engine fork, or copied engine search/evaluation code. The runtime wheel
-is vendored with its upstream metadata/license and recorded SHA-256.
+`chess_tools.py` and `chess_analysis.py` contain original AI-assisted algorithmic
+analysis written during the event. The authoritative Rulebook section 3.4 permits
+team-written algorithmic search, planning and analysis. No imported engine,
+engine fork or copied engine search/evaluation code is used. python-chess 1.11.2
+provides generic board state, legal moves and terminal rules; the wheel is vendored
+with its upstream license/metadata and recorded SHA-256.
 
-The tool reconstructs the supplied move history and checks it against current
-FEN. It searches for immediate own checkmates and actual opponent mate-in-one
-reply witnesses. It respects the event's automatic current-position threefold
-and fifty-move draws, with checkmate precedence. Search is cancellable and the
-reply probe has a 0.2 second wall-clock budget. Incomplete probing removes only
-moves with a verified losing witness; unprobed moves are not certified safe.
-If every move has a losing witness, all legal choices remain available.
+The search reconstructs supplied initial FEN and move history and verifies current
+FEN. Checkmate precedes the event's automatic threefold and fifty-move draws.
+A bounded exact terminal probe finds immediate own mates and opponent mate-in-one
+witnesses. Incomplete probing excludes only moves with actual losing witnesses.
+If all moves have such witnesses, the final candidate list remains nonempty.
 
-The resulting legal subset is passed to the final strict JSON schema. The
-approved model still completes the final inference request and selects the
-submitted move. The harness returns `Decision.from_trace` without replacing
-invalid output with a coded fallback. The SDK explicitly permits original
-tactical search in rules/RULES.md and legal candidate subsets, including scalar
-enums, in docs/reasoning.md. General prompting and reasoning defaults otherwise
-retain the starter behavior.
+The additional search is an original iterative minimax traversal with alpha-beta
+bounds and up to four capture/recapture quiescence plies. Check evasions are searched
+as legal responses. Only complete root iterations replace the retained snapshot.
+Root fail-high child results are explicitly labeled as upper bounds for the root
+move and excluded from final candidate admission; they are not treated as exact
+scores. Cancellation and a default 0.8 second budget bound CPU work. The budget
+shrinks with authoritative remaining clock, rather than inferring a match format
+from current clock readings. Search caches are local to one decision and bounded.
 
-Development-only tests use exact approved GGUFs and a local llama.cpp runtime
-pinned to 097cf33d9499b1eade67d51e16d7c75427e7b267. Stockfish 17.1 is a separate
-development opponent/offline diagnostic reference. It never supplies inference
-context or moves, and neither Stockfish nor the development scripts/model files
-is included in this repository's participant runtime.
+All evaluation formulas and coefficients were selected manually from general
+chess principles. They were not fitted to training data, rewards, CEM, reinforcement
+learning or supervised labels. The formulas are original code: pawn=100, knight=320,
+bishop=330, rook=500, queen=900; doubled-coordinate distance from the center rewards
+minor-piece development; pawn advancement receives a small phase-dependent bonus;
+rooks receive small open-file/seventh-rank bonuses; a bishop pair receives 20;
+early queen excursions are discouraged; middlegame king advancement is penalized
+and home pawn shielding/castling shelter rewarded, while endgame king centrality
+is encouraged. These are shallow handcrafted estimates, not a learned model or
+a proof of a globally best move. No automated parameter fitting is permitted.
 
-Validation: 39 SDK tests passed, with one optional organizer test skipped. New
-regressions cover actual mate candidates, the fifty-move draw edge, reconstructed
-threefold history, nonempty candidate lists, and cancellation. The Docker fixture
-checks both colors with network disabled, a read-only root, one CPU and 1 GiB RAM.
-These fixtures validate protocol/evidence behavior using a fake gateway.
+The approved LLM selects the final move from a near-best legal subset using the
+submitted current FEN. The prompt supplies approximate scores and legal principal
+variations with SAN/UCI mapping. The strict final JSON enum constrains those
+choices. `Decision.from_trace` preserves completed request evidence; code never
+replaces missing/invalid model output with a fallback. SDK docs/reasoning.md
+explicitly permits legal candidate subsets. Reasoning is disabled in this
+configuration for a compact final selection; the organizer gateway owns native
+serving controls.
 
-An independent 64-position synthetic king/queen/rook mate-in-one set
-(seed 2026101458) produced 64 legal actual Horizon Q4_K_M completions and 64 mates
-with the terminal subset. This is narrow tactical/decoding evidence, not a general
-rating and not validation of a different base's serving behavior. Earlier
-Nemotron and Horizon experimental full games lost to local Stockfish skill 0,
-depth 3. Those experimental general prompts were not adopted. General playing
-strength remains under active development; no win or global optimum is claimed.
+Development-only tests use exact approved GGUFs and llama.cpp commit
+097cf33d9499b1eade67d51e16d7c75427e7b267. Stockfish 17.1 is an external development
+opponent and offline diagnostic reference. Neither its source/binary nor reference
+scores are supplied as runtime model context. Model files, local servers and
+benchmark scripts stay outside this repository's participant image.
+
+Validation: 45 SDK tests passed, with one optional organizer test skipped. Tests
+cover actual mates, event draw/history edges, cancellation, snapshot/board unwind,
+poisoned captures, legal nonempty candidates and root score-bound semantics.
+The fixture passed both colors with one CPU, 512 MiB RAM, 64 PIDs, a read-only root,
+64 MiB tmpfs and networking disabled. The fixture checks protocol/evidence with a
+fake gateway and is not official organizer approval.
+
+On 48 fresh mixed-color positions from eight development selfplay games, actual
+Gemma completions with the original first algorithmic prototype reduced offline
+depth-10 Stockfish diagnostic mean regret from 273.02 to 70.02 centipawns and
+moves exceeding 200 centipawns regret from 20 to 5. Baseline and prototype both
+used the exact terminal guard. Positions within each game are correlated, and
+these diagnostics are neither Elo nor official event benchmarks.
+
+A first algorithmic White game won against local Stockfish 17.1, skill 0, depth 3
+in 83 plies with 520.7 seconds remaining from a 600 second clock. An initial Black
+180 second trial expired on clock while also losing material. After root-bound
+pruning and clock-adaptive budgeting, a Black 180 second trial won in 64 plies with
+124.2 seconds remaining. Every own move came from an actual completed approved
+LLM request. These are a few development games against a deliberately weak
+reference setting, not a guarantee of tournament victory or mathematical optimum.
+On a second fresh 48-position set, the bound-aware revision reduced mean regret
+from 258.96 to 74.92 centipawns and >200 centipawn errors from 25 to 4. A source-game
+cluster bootstrap across eight games estimated a mean reduction of 184.04
+centipawns, with a 95% interval of 109.31 to 252.94. A White trial against the
+slightly deeper skill-0/depth-4 reference also won in 53 plies, with 553.2 seconds
+remaining; initial requests may have briefly shared the local server queue with
+the tail of position validation, so that timing includes possible additional
+queueing. evaluation/ contains compact reports. Further strength and clock
+testing remains active; final submission is held.

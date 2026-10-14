@@ -1,0 +1,28 @@
+{
+  "model_id": "gemma",
+  "approved_model_sha256": "85a896a047553e842f25297ee5b031d64ff30147d9c4af17b1e4b394cd1fab87",
+  "positions": 48,
+  "source_games": 8,
+  "baseline": {
+    "positions": 48,
+    "mean_cp_regret": 258.9583333333333,
+    "blunders_above_200cp": 25,
+    "near_best_within_50cp": 8,
+    "mean_seconds": 1.110123553437764
+  },
+  "algorithmic": {
+    "positions": 48,
+    "mean_cp_regret": 74.91666666666667,
+    "blunders_above_200cp": 4,
+    "near_best_within_50cp": 25,
+    "mean_seconds": 1.7795081602081761
+  },
+  "mean_cp_regret_reduction": 184.04166666666666,
+  "source_game_cluster_bootstrap_95pct": [
+    109.3125,
+    252.9375
+  ],
+  "scope": "Fresh paired depth10 Stockfish diagnostic, correlated observations grouped by source game. No event rating or win guarantee.",
+  "runtime_source_sha256": "47f59985bdcb86a41835d771b089d1e83fa1a909097d265cb43cfe3166e7cecc",
+  "benchmark_source_sha256": "7f5b6de3fc1f8cba6658bf67900c13914e2e449b80482daca28abc79d2613dfe"
+}
