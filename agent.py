@@ -3,6 +3,7 @@
 from chess_analysis import analyze, candidate_subset, model_messages
 from chess_sdk import Decision
 from chess_tools import position_notes, terminal_candidates
+from native_analysis import analyze as native_analyze
 
 
 def choose(context):
@@ -18,7 +19,8 @@ def choose(context):
     analysis_budget = min(
         config.get("analysis_seconds", 0.8), max(0.02, context.remaining_seconds * 0.01)
     )
-    analysis = analyze(
+    analyzer = native_analyze if config.get("analysis_backend", "native") == "native" else analyze
+    analysis = analyzer(
         context.position | {"legal_moves": candidates},
         getattr(context, "check_cancelled", lambda: None),
         seconds=analysis_budget,

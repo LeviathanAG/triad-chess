@@ -18,6 +18,25 @@ engine fork or copied engine search/evaluation code is used. python-chess 1.11.2
 provides generic board state, legal moves and terminal rules; the wheel is vendored
 with its upstream license/metadata and recorded SHA-256.
 
+The current development default runs the same original analysis in native C++
+through `native_analysis.py`; the retained Python checkpoint is commit 1c78a24.
+The C++ search and handcrafted evaluation are a direct team-written port, with
+no copied engine search or evaluation. The generic MIT Disservin/chess-library
+rules header is pinned to 53e6a841dcda7059a2af363d85f785ef1817304a; its source,
+license and hashes are in native/. The wrapper independently checks legal moves
+against python-chess and terminates its worker on cancellation or wall timeout.
+221 rule/history/evaluation cases and nine root-bound/PV cases passed, including
+castling, promotions, legal and pinned en passant, repetition and mate precedence.
+
+The checked-in native binary was built with pinned GCC 13 on Bookworm, without
+host ISA flags, using static libstdc++/libgcc and dynamic Bookworm glibc. Its SHA-256
+is 16f1a43275602d0b853e96fd4f085da0fe37cb61ec14fc6937e197b26a8d9998.
+The default offline admission Dockerfile copies and verifies this binary and
+requires only the preloaded official Python parent. `native/Dockerfile.build`
+and native/README.md provide a separate reproducible compiler fixture; that
+optional rebuild is not an admission-build dependency. Compiler runtime
+license provenance is recorded in native/PROVENANCE.txt.
+
 The search reconstructs supplied initial FEN and move history and verifies current
 FEN. Checkmate precedes the event's automatic threefold and fifty-move draws.
 A bounded exact terminal probe finds immediate own mates and opponent mate-in-one
@@ -89,3 +108,15 @@ remaining; initial requests may have briefly shared the local server queue with
 the tail of position validation, so that timing includes possible additional
 queueing. evaluation/ contains compact reports. Further strength and clock
 testing remains active; final submission is held.
+
+The original native variant, with actual approved Gemma final requests, reduced
+second-set diagnostic mean regret to 40.90 centipawns, with one >200-centipawn
+error and 29 moves within 50 centipawns. These reused comparison positions do not
+establish independent playing strength. Native games won as Black180s against
+Skill0/depth4 (64 plies,136.75s remaining), White600s against Skill0/depth6
+(67 plies,556.54s remaining), and Black180s against Skill0/depth8
+(34 plies,160.01s remaining). All own moves were legal and supported by actual
+LLM completion evidence. These weak-reference wins are not a tournament guarantee.
+Stronger skill settings and fresh starts are being tested before further claims.
+The complete native admission image passed both-colour protocol fixtures under
+the resource profile above; evaluation/native-admission-*.json records the checks.

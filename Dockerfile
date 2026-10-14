@@ -1,5 +1,5 @@
-# Organizer must preload this parent image. Pin their published digest for final submission.
-FROM python:3.12-slim-bookworm AS participant
+# Pinned official Python 3.12 slim Bookworm; final organizer platform policy applies.
+FROM python@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258 AS participant
 ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 HOME=/tmp
 WORKDIR /app
 ARG TARGETARCH
@@ -14,6 +14,9 @@ COPY src/chess_sdk/ /app/chess_sdk/
 COPY agent.py /app/agent.py
 COPY chess_tools.py /app/chess_tools.py
 COPY chess_analysis.py /app/chess_analysis.py
+COPY native_analysis.py /app/native_analysis.py
+COPY native/analysis /app/native/analysis
+RUN python -c 'import hashlib,pathlib; assert hashlib.sha256(pathlib.Path("/app/native/analysis").read_bytes()).hexdigest() == "16f1a43275602d0b853e96fd4f085da0fe37cb61ec14fc6937e197b26a8d9998"'
 COPY assets/ /app/assets/
 USER 65532:65532
 ENTRYPOINT ["python", "-m", "chess_sdk", "run", "--agent", "agent:choose"]

@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "protocol": "chess.v1",
+  "model": "local-mock",
+  "checks": {
+    "handshake": true,
+    "out_of_turn_safety": true,
+    "inference_evidence": true,
+    "correction": true,
+    "paired_barrier_handling": true,
+    "resume": true,
+    "shutdown": true
+  },
+  "notes": [
+    "Local compatibility fixture, not official approval or a strength measurement."
+  ],
+  "requests": 4,
+  "pondering_requests": 0,
+  "participant_cancellations": 0,
+  "accepted_moves": 2,
+  "stderr": ""
+}

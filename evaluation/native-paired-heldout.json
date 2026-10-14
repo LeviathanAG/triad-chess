@@ -1,0 +1,24 @@
+{
+  "scope": "Native original algorithmic analysis + exact approved frozen Gemma versus shallow prompt baseline on same heldoutpositions. Reference scores external depth10 Stockfish; not Elo/event win odds.",
+  "baseline": {
+    "positions": 48,
+    "mean_cp_regret": 258.9583333333333,
+    "blunders_above_200cp": 25,
+    "near_best_within_50cp": 8,
+    "mean_seconds": 1.110123553437764
+  },
+  "retained_python": {
+    "positions": 48,
+    "mean_cp_regret": 74.91666666666667,
+    "blunders_above_200cp": 4,
+    "near_best_within_50cp": 25,
+    "mean_seconds": 1.7795081602081761
+  },
+  "native": {
+    "positions": 48,
+    "mean_cp_regret": 40.895833333333336,
+    "blunders_above_200cp": 1,
+    "near_best_within_50cp": 29,
+    "mean_seconds": 1.517950866270894
+  }
+}

@@ -1,0 +1,43 @@
+Triad Tactics development native Chess analysis
+Developed during the event window, 14 October 2026 (IST).
+Coding assistant: OpenAI Codex, coordinated with the team's Chess work.
+
+Original participant code
+analysis.cpp implements the team's fixed handcrafted material/geometry,
+development and king-safety evaluation, iterative negamax, capture quiescence,
+and bounded root analysis. It ports our event-written Python analysis. These
+heuristic weights have not been fitted using ML, reinforcement learning or
+engine labels. No imported engine search/evaluation code, opening book,
+tablebase, extra learned evaluator or move-ranking model is included.
+
+Attributed general chess-rules dependency
+Disservin/chess-library, MIT license:
+https://github.com/Disservin/chess-library
+Pinned commit: 53e6a841dcda7059a2af363d85f785ef1817304a
+Vendored files: vendor/chess.hpp and vendor/LICENSE only.
+Header SHA-256:
+f2c8e2e929641e2c71cbe9d8abd718cf3cac46c2a34531215ebd733905e98d7f
+Uses legal move generation, board operations and repetition history. We do not
+copy example engines or their evaluation/search implementations. The full
+research checkout rules-library/ is development-only and must not be bundled.
+
+Build fixture
+Dockerfile.build-check uses a pinned official GCC 13 Bookworm compiler stage
+and a pinned Python 3.12 slim Bookworm runtime. No compiler is copied into the
+runtime. It targets ordinary x86-64, without host-specific instruction flags.
+The binary links libstdc++ and libgcc statically, with system glibc dynamically.
+The GCC Runtime Library Exception applies to the linked compiler libraries:
+https://www.gnu.org/licenses/gcc-exception-3.1.html
+Compiler image: gcc@sha256:b59036579f0622d1b3aa5286aaf2fcef9b9c6f88f31c6762236fc2f136f7f650
+Runtime image: python@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+Build: docker build --pull=false --network=none -f Dockerfile.build-check .
+Any build record must identify source, binary, header and image hashes.
+
+Runtime role and current status
+Development experiment only until the Chess owner integrates and validates
+the official complete harness image. Analysis produces candidate estimates;
+the registered approved Q4_K_M model must issue the final move through the
+SDK with completed inference evidence. This helper supplies no replacement
+move after an invalid model response. Neither Stockfish nor training assets
+belong in the runtime. Keep the retained main checkpoint unchanged until the
+replacement gate is met. Conformance/resource checks are not strength claims.

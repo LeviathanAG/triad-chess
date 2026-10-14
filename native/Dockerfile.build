@@ -1,0 +1,14 @@
+# Development build fixture; compiler stage is absent from the runtime image.
+FROM gcc@sha256:b59036579f0622d1b3aa5286aaf2fcef9b9c6f88f31c6762236fc2f136f7f650 AS compiler
+WORKDIR /build
+COPY analysis.cpp ./
+COPY vendor/ ./vendor/
+RUN g++ -std=c++17 -O3 -static-libstdc++ -static-libgcc \
+    -Wl,--build-id=sha1 -o analysis-bookworm analysis.cpp \
+    && g++ --version > compiler-version.txt
+
+FROM python@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258 AS runtime-check
+COPY --from=compiler /build/analysis-bookworm /native
+COPY --from=compiler /build/compiler-version.txt /compiler-version.txt
+USER 65532:65532
+ENTRYPOINT ["/native"]
