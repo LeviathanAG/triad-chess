@@ -16,6 +16,8 @@ COPY chess_tools.py /app/chess_tools.py
 COPY chess_analysis.py /app/chess_analysis.py
 COPY native_analysis.py /app/native_analysis.py
 COPY native/analysis /app/native/analysis
+COPY native/vendor/LICENSE /app/native/rules-library-LICENSE
+COPY native/PROVENANCE.txt /app/native/PROVENANCE.txt
 RUN python -c 'import hashlib,pathlib; assert hashlib.sha256(pathlib.Path("/app/native/analysis").read_bytes()).hexdigest() == "16f1a43275602d0b853e96fd4f085da0fe37cb61ec14fc6937e197b26a8d9998"'
 COPY assets/ /app/assets/
 USER 65532:65532

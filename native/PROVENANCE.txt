@@ -22,7 +22,7 @@ copy example engines or their evaluation/search implementations. The full
 research checkout rules-library/ is development-only and must not be bundled.
 
 Build fixture
-Dockerfile.build-check uses a pinned official GCC 13 Bookworm compiler stage
+Dockerfile.build uses a pinned official GCC 13 Bookworm compiler stage
 and a pinned Python 3.12 slim Bookworm runtime. No compiler is copied into the
 runtime. It targets ordinary x86-64, without host-specific instruction flags.
 The binary links libstdc++ and libgcc statically, with system glibc dynamically.
@@ -30,12 +30,17 @@ The GCC Runtime Library Exception applies to the linked compiler libraries:
 https://www.gnu.org/licenses/gcc-exception-3.1.html
 Compiler image: gcc@sha256:b59036579f0622d1b3aa5286aaf2fcef9b9c6f88f31c6762236fc2f136f7f650
 Runtime image: python@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
-Build: docker build --pull=false --network=none -f Dockerfile.build-check .
+Optional rebuild from native/: docker build --pull=false --network=none -f Dockerfile.build .
+The admission image instead copies the verified checked-in binary and requires
+only the preloaded official Python parent; the compiler fixture is separate.
 Any build record must identify source, binary, header and image hashes.
 
 Runtime role and current status
-Development experiment only until the Chess owner integrates and validates
-the official complete harness image. Analysis produces candidate estimates;
+Integrated in the private Chess development branch, with 221 conformance
+positions plus nine bound/PV cases and both-colour complete harness fixtures
+passing the exact one-CPU/512MiB/64PIDs/64MiBtmp offline/read-only profile.
+No official submission or main-branch promotion has occurred.
+Analysis produces candidate estimates;
 the registered approved Q4_K_M model must issue the final move through the
 SDK with completed inference evidence. This helper supplies no replacement
 move after an invalid model response. Neither Stockfish nor training assets
