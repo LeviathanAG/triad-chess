@@ -120,3 +120,31 @@ LLM completion evidence. These weak-reference wins are not a tournament guarante
 Stronger skill settings and fresh starts are being tested before further claims.
 The complete native admission image passed both-colour protocol fixtures under
 the resource profile above; evaluation/native-admission-*.json records the checks.
+
+Reference-label audit: repeated depth-limited Stockfish calls can differ because
+of engine search/hash history. The earlier raw diagnostic figures above are
+historical and should not be interpreted as exact paired effects. Frozen model
+outputs were preserved and re-scored using one shared cold depth-12 reference
+per unique position/move, with Clear Hash and a fresh UCI game before each.
+On the second 48-position set, corrected mean regret is 260.58 centipawns for
+the guarded baseline, 78.85 for Python v2 and 47.50 for the original native
+variant; >200-centipawn errors are respectively 23, 5 and 2. These remain
+approximate engine diagnostics, with positions clustered by source game.
+
+Unadopted fast-evaluation experimentation preserved the same evaluation
+formula. On a separate fresh 48-position set, corrected original/fast mean
+regret was 55.40/51.29 centipawns and both had three >200-centipawn errors;
+12 searches completed deeper and 36 tied. A proposed narrower candidate
+window was tested separately on unused seed 20261014131: corrected mean
+regret was 44.31 for the retained 65/120 policy and 49.38 for 30/30, with one
+>200-centipawn error each. The narrower policy has not been adopted.
+
+Stronger actual model games exposed limits: original-native White600s with
+2.4s search ceiling drew by verified threefold against Skill5/depth8 in 89 plies,
+451.96s remaining. An isolated fast-eval Black180s 2.4s-ceiling trial lost by
+checkmate to Skill5/depth8 in 139 plies with 19.63s remaining. A fast-eval
+White600s 6s-ceiling trial lost by checkmate to Skill20/depth8 in 70 plies with
+389.04s remaining. Skill20 here is explicitly depth-limited. All own moves
+had legal actual approved-model completion evidence and no backend faults.
+More compute alone did not establish reliability against stronger opponents.
+These experiments do not replace the retained default native source or model.

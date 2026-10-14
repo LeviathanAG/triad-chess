@@ -1,0 +1,27 @@
+{
+  "scope": "Independent fresh seed20261014131,8newSkill5depth5sourcegames; actualfrozenGemmacompletions, sharedcolddepth12references; fixedheuristicformulas/no fitting; not Elo",
+  "wide_65_secondary120": {
+    "positions": 48,
+    "mean_cp_regret": 44.3125,
+    "blunders_above_200cp": 1,
+    "near_best_within_50cp": 31,
+    "mean_seconds": 1.5822106959374953
+  },
+  "narrow30_secondary30": {
+    "positions": 48,
+    "mean_cp_regret": 49.375,
+    "blunders_above_200cp": 1,
+    "near_best_within_50cp": 28,
+    "mean_seconds": 1.5290950760621247
+  },
+  "mean_regret_reduction_narrow": -5.0625,
+  "cluster95percent": [
+    -10.5,
+    -0.625
+  ],
+  "better": 1,
+  "worse": 4,
+  "same": 43,
+  "same_move": 43,
+  "decision": "Narrow policy not adopted; original65/120 retained pending additional evidence"
+}

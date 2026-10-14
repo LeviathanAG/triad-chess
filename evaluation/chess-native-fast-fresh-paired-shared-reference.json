@@ -1,0 +1,27 @@
+{
+  "scope": "Fresh actual approved Gemma choices, shared cold depth12 references with one evaluation per unique position/move;8sourcegameclusters; approximate diagnostic, not Elo/win guarantee. Frozen inference preserved.",
+  "reference_map": "training/chess-native-fresh-shared-reference.json",
+  "original": {
+    "positions": 48,
+    "mean_cp_regret": 55.395833333333336,
+    "blunders_above_200cp": 3,
+    "near_best_within_50cp": 30,
+    "mean_seconds": 1.592927620979329
+  },
+  "fast_eval": {
+    "positions": 48,
+    "mean_cp_regret": 51.291666666666664,
+    "blunders_above_200cp": 3,
+    "near_best_within_50cp": 32,
+    "mean_seconds": 1.5934224723537227
+  },
+  "mean_paired_regret_reduction": 4.104166666666667,
+  "cluster_bootstrap_95_percent": [
+    0.6458333333333334,
+    7.979166666666667
+  ],
+  "better": 4,
+  "worse": 2,
+  "same": 42,
+  "same_move": 41
+}
