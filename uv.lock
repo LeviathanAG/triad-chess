@@ -342,6 +342,7 @@ name = "triad-chess-sdk"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "chess" },
     { name = "httpx" },
 ]
 
@@ -363,6 +364,7 @@ docker = [
 
 [package.metadata]
 requires-dist = [
+    { name = "chess", specifier = "==1.11.2" },
     { name = "chess", marker = "extra == 'dev'", specifier = "==1.11.2" },
     { name = "httpx", specifier = "==0.28.1" },
     { name = "jsonschema", marker = "extra == 'dev'", specifier = "==4.23.0" },

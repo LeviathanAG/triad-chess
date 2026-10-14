@@ -12,6 +12,7 @@ RUN uv pip install --system --offline --no-cache --no-index --find-links=/wheels
     && rm -rf /wheels
 COPY src/chess_sdk/ /app/chess_sdk/
 COPY agent.py /app/agent.py
+COPY chess_tools.py /app/chess_tools.py
 COPY assets/ /app/assets/
 USER 65532:65532
 ENTRYPOINT ["python", "-m", "chess_sdk", "run", "--agent", "agent:choose"]

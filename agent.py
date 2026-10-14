@@ -3,11 +3,16 @@
 import json
 
 from chess_sdk import Decision
+from chess_tools import position_notes, terminal_candidates
 
 
 def choose(context):
     # Put your own search, retrieval, memory, LangChain/Pi orchestration, etc. here.
     # Keep CPU tools cancellable: call context.check_cancelled() inside long loops.
+    # Original, bounded terminal-rule search. The model still selects from this
+    # legal subset and supplies the actual completed request as move evidence.
+    notes = position_notes(context.position, getattr(context, 'check_cancelled', lambda: None), seconds=.2)
+    candidates = terminal_candidates(context.position, notes)
     messages = [
         {
             "role": "system",
@@ -18,7 +23,7 @@ def choose(context):
             "content": json.dumps(
                 {
                     "fen": context.position["fen"],
-                    "legal_moves": context.position["legal_moves"],
+                    "legal_moves": candidates,
                     "clock": context.position["clock"],
                     "last_rejection": context.last_response
                     if context.last_response and not context.last_response.get("accepted")
@@ -27,6 +32,10 @@ def choose(context):
             ),
         },
     ]
+    if notes['mate_in_one']:
+        messages[0]['content'] += ' The rules checker verified that every supplied candidate is immediate checkmate; choose one to win now.'
+    elif len(candidates) < len(context.position['legal_moves']):
+        messages[0]['content'] += ' The rules checker excluded moves with a verified enemy mate-in-one reply. Analyze the supplied remaining choices.'
     # Actual clocks come from observations. Leave time to serialize and deliver the move.
     budget = max(0.05, context.remaining_seconds - 0.5) if context.own_turn else 120
     # Recommended final move: explicitly constrain the answer to legal moves.
@@ -37,7 +46,7 @@ def choose(context):
         "json_schema": {
             "name": "chess_move_selection",
             "strict": True,
-            "schema": {"type": "string", "enum": context.position["legal_moves"]},
+            "schema": {"type": "string", "enum": candidates},
         },
     }
     capabilities = context.initial["inference"]
