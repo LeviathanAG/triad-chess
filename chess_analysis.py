@@ -289,6 +289,11 @@ def candidate_subset(analysis, legal, max_choices=4, tolerance=65, secondary_tol
     if not exact:
         return legal
     best = exact[0]["score"]
+    # Native mate scores encode ply distance, not centipawns. The fixed
+    # evaluation is far below this band; native depth<=12 plus four capture
+    # plies cannot reach a 100-ply distance. Retain equal best distances only.
+    if abs(best) >= MATE - 100:
+        return [x["uci"] for x in exact if x["score"] == best][:max_choices]
     candidates = [x["uci"] for x in exact if x["score"] >= best - tolerance][:max_choices]
     # Allow a meaningful model comparison when the second choice is close.
     if len(candidates) == 1 and len(exact) > 1 and exact[1]["score"] >= best - secondary_tolerance:
