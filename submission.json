@@ -1,4 +1,5 @@
 {
+  "teamName": "TungMasterSoloClear",
   "protocol": "chess.v1",
   "model_id": "qwen",
   "adapter": null,

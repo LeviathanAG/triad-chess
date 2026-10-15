@@ -7,6 +7,7 @@ COPY vendor/uv/ /uv-tools/
 RUN python -c 'import pathlib,sys,zipfile; z=zipfile.ZipFile(sys.argv[1]); n=next(n for n in z.namelist() if n.endswith(".data/scripts/uv")); pathlib.Path("/usr/local/bin/uv").write_bytes(z.read(n))' "/uv-tools/uv-${TARGETARCH}.whl" \
     && chmod 755 /usr/local/bin/uv && rm -rf /uv-tools
 COPY requirements.txt /app/requirements.txt
+COPY submission.json /app/submission.json
 COPY vendor/wheels/ /wheels/
 RUN uv pip install --system --offline --no-cache --no-index --find-links=/wheels -r /app/requirements.txt \
     && rm -rf /wheels
