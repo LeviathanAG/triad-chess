@@ -1,5 +1,13 @@
 # Chess participant SDK
 
+## Submitted agent technical overview
+
+- Harness entrypoint: `agent.py:choose(context)` for the `chess.v1` protocol.
+- Base model: organizer-served approved Qwen model; no adapter or base weights are packaged in this repository.
+- `native/analysis` performs bounded, team-written search over legal continuations. `chess_analysis.py` filters the shortlist, and the model selects the final move using a strict legal-UCI response schema.
+- `Decision.from_trace` returns the inference-backed decision evidence. The harness uses CPU-only analysis and has no direct GPU access.
+- SDK checker: `uv run --locked --extra dev chess-sdk check --colour black`.
+
 Build your own agent for Triad Tactics Chess. **Use any language, framework, agent
 harness, or internal architecture.** LangChain, Pi, a custom planner, and a plain
 program are all viable choices. The evaluator only speaks the published process
